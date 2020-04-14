@@ -1,5 +1,5 @@
 ﻿@using  BlazorRScard.Models
-@inherits ExperienceBase
+@inherits ExperiencesBase
 
 <section id="experience" class="section section-experience">
     <div class="animate-up">
@@ -14,7 +14,8 @@
                 }
                 else
                 {
-                    @foreach (var experience in Experiences)
+                    Id=0;
+                    foreach (var experience in Experiences)
                     {
                         <div class="timeline-box @(Id%2==0 ? "timeline-box-left" : "timeline-box-right") ">
                             <span class="dot"></span>
@@ -43,7 +44,7 @@
 
         <div class="grid-more">
             <span class="ajax-loader @AjaxLoaderDisplayClass"></span>
-            <button class="btn btn-cool btn-border @ButtonMoreDisplayClass" @onclick="LoadMoreExperiences"><i class="rsicon rsicon-add"></i></button>
+            <button class="btn btn-border ripple @ButtonMoreDisplayClass" @onclick="LoadMoreExperiences"><i class="rsicon rsicon-add"></i></button>
         </div>
 
     </div>

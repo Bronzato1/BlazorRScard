@@ -16,7 +16,7 @@ namespace BlazorRScard.Client
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("app");
 
-            builder.Services.AddSingleton<ApiService>();
+            builder.Services.AddSingleton<IApiService, ApiService>();
             builder.Services.AddBaseAddressHttpClient();
 
             await builder.Build().RunAsync();

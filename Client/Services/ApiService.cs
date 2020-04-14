@@ -8,7 +8,7 @@ using BlazorRScard.Models;
 
 namespace BlazorRScard.Client.Services
 {
-    public class ApiService
+    public class ApiService : IApiService
     {
         public HttpClient _httpClient;
 
@@ -17,9 +17,9 @@ namespace BlazorRScard.Client.Services
             _httpClient = httpClient;
         }
 
-        public async Task<List<Experience>> GetExperiencesAsync(int page)
+        public async Task<List<Experience>> GetExperiencesAsync(int pageIndex, int pageSize)
         {
-            var response = await _httpClient.GetAsync("Experience/?page=" + page);
+            var response = await _httpClient.GetAsync("Experience/?pageIndex=" + pageIndex + "&pageSize=" + pageSize);
             response.EnsureSuccessStatusCode();
 
             using var responseContent = await response.Content.ReadAsStreamAsync();

@@ -12,7 +12,6 @@ namespace BlazorRScard.Server.Controllers
     [ApiController]
     public class ExperienceController : ControllerBase
     {
-        private static readonly int PAGE_SIZE = 6;
         private static readonly Experience[] Experiences = new[] 
         {
             new Experience { 
@@ -282,10 +281,10 @@ namespace BlazorRScard.Server.Controllers
         };
  
         [HttpGet]
-        public IEnumerable<Experience> Get(int page=0)
+        public IEnumerable<Experience> Get(int pageIndex, int pageSize)
         {
             var experiences = Experiences.OrderByDescending(x => x.Year);
-            var pagedExperiences = experiences.Skip(PAGE_SIZE * page).Take(PAGE_SIZE);
+            var pagedExperiences = experiences.Skip(pageSize * pageIndex).Take(pageSize);
             return pagedExperiences;
         }
     }

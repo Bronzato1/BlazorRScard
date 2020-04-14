@@ -5,18 +5,29 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using BlazorRScard.Models;
 
 namespace BlazorRScard.Client.Components
 {
-    public class ExperienceBase : ComponentBase
+    public class ExperiencesBase : ComponentBase
     {
         [Inject]
         protected IJSRuntime JsRuntime { get; set; }
 
         [Inject]
-        protected BlazorRScard.Client.Services.ApiService ApiService { get; set; }
+        protected IApiService ApiService { get; set; }
 
-        protected IEnumerable<BlazorRScard.Models.Experience> Experiences { get; set; }
+        public int PageIndex { get; set; }
+
+        public string AjaxLoaderDisplayClass { get; set; }
+
+        public string ButtonMoreDisplayClass { get; set; }
+
+        protected IEnumerable<Experience> Experiences { get; set; }
+
+        private static readonly int PAGE_SIZE = 6;
+
+        public int Id { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
@@ -31,9 +42,9 @@ namespace BlazorRScard.Client.Components
 
             // Méthode 3
             // [Inject] protected BlazorRScard.Client.Services.ApiService ApiService { get; set; }
-            Experiences = await ApiService.GetExperiencesAsync(PageIndex);
+            Experiences = await ApiService.GetExperiencesAsync(PageIndex, PAGE_SIZE);
 
-            //base.OnInitializedAsync();
+            await base.OnInitializedAsync();
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -42,24 +53,20 @@ namespace BlazorRScard.Client.Components
             await base.OnAfterRenderAsync(firstRender);
         }
 
-        public int Id { get; set; }
-
-        public int PageIndex { get; set; }
-
-        public string AjaxLoaderDisplayClass { get; set; }
-
-        public string ButtonMoreDisplayClass { get; set; }
-
         protected async Task LoadMoreExperiences()
         {
             PageIndex++;
             AjaxLoaderDisplayClass = "d-inline-block";
             ButtonMoreDisplayClass = "d-none";
-            var experiences = await ApiService.GetExperiencesAsync(PageIndex);
+            var experiences = await ApiService.GetExperiencesAsync(PageIndex, PAGE_SIZE);
+
+            if (experiences.Count == PAGE_SIZE)
+                ButtonMoreDisplayClass = "d-inline-block";
+
             Experiences = Experiences.Concat(experiences);
             await JsRuntime.InvokeVoidAsync("triggerScroll");
             AjaxLoaderDisplayClass = "d-none";
-            ButtonMoreDisplayClass = "d-inline-block";
+            
         }
     }
 }
