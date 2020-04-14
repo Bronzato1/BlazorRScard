@@ -1,0 +1,50 @@
+﻿@using  BlazorRScard.Models
+@inherits ExperienceBase
+
+<section id="experience" class="section section-experience">
+    <div class="animate-up">
+        <h2 class="section-title">Experience</h2>
+
+        <div class="timeline">
+            <div class="timeline-bar"></div>
+            <div class="timeline-inner clearfix">
+                @if (Experiences == null)
+                {
+                    <p><em>Loading...</em></p>
+                }
+                else
+                {
+                    @foreach (var experience in Experiences)
+                    {
+                        <div class="timeline-box @(Id%2==0 ? "timeline-box-left" : "timeline-box-right") ">
+                            <span class="dot"></span>
+                            <div class="timeline-box-inner @(Id%2==1 ? "animate-left" : "animate-right") ">
+                                <span class="arrow"></span>
+
+                                <div class="date">@experience.Year</div>
+                                <h3>@experience.Company</h3>
+                                <h4>@experience.Sector</h4>
+                                <p class="text-justify">
+                                    @experience.Description
+                                </p>
+                                <p class="text-center">
+                                    @foreach (var keyword in experience.Keywords)
+                                    {
+                                        <span class="badge badge-outlined badge-secondary">@keyword</span>
+                                    }
+                                </p>
+                            </div>
+                        </div>
+                        Id++;
+                    }
+                }
+            </div>
+        </div>
+
+        <div class="grid-more">
+            <span class="ajax-loader @AjaxLoaderDisplayClass"></span>
+            <button class="btn btn-cool btn-border @ButtonMoreDisplayClass" @onclick="LoadMoreExperiences"><i class="rsicon rsicon-add"></i></button>
+        </div>
+
+    </div>
+</section>

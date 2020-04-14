@@ -1,0 +1,39 @@
+﻿@page "/counter"
+
+<h1>Counter</h1>
+
+<p>Current count: @currentCount</p>
+
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+
+@code {
+    private int currentCount = 0;
+
+    //protected override Task OnInitializedAsync()
+    //{
+    //    currentCount = 4;
+    //    return base.OnInitializedAsync();
+    //}
+
+    protected override void OnInitialized()
+    {
+        currentCount = 3;
+        base.OnInitialized();
+    }
+
+    //protected override Task OnAfterRenderAsync(bool firstRender)
+    //{
+    //    currentCount = 6;
+    //    return base.OnAfterRenderAsync(firstRender);
+    //}
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        currentCount = 8;
+        base.OnAfterRender(firstRender);
+    }
+    private void IncrementCount()
+    {
+        currentCount++;
+    }
+}
